@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Control</title>
+</head>
+<body>
+    <h1>Controle do Site</h1>
+    <label for="bg-color">Cor de Fundo:</label>
+    <input type="color" id="bg-color">
+    <br>
+    <label for="animation">Animação:</label>
+    <select id="animation">
+        <option value="none">Nenhuma</option>
+        <option value="pulse">Pulsar</option>
+        <option value="shake">Tremer</option>
+    </select>
+    <button id="update">Atualizar</button>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyD1_jce8AKIShD-10OQFHZMgtnPJbjC2pw",
+          authDomain: "piba-happy-new-year.firebaseapp.com",
+          databaseURL: "https://piba-happy-new-year-default-rtdb.firebaseio.com",
+          projectId: "piba-happy-new-year",
+          storageBucket: "piba-happy-new-year.firebasestorage.app",
+          messagingSenderId: "627238322422",
+          appId: "1:627238322422:web:6c25a982ce66f437fdacd7",
+          measurementId: "G-148ZJ9K8ZQ"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        document.getElementById('update').addEventListener('click', () => {
+            const bgColor = document.getElementById('bg-color').value;
+            const animation = document.getElementById('animation').value;
+            db.ref('settings').set({ bgColor, animation });
+        });
+    </script>
+</body>
+</html>
