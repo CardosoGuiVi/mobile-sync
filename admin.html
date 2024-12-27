@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>Admin Control</title>
-    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js"></script>
 </head>
 <body>
     <h1>Controle do Site</h1>
@@ -17,7 +15,10 @@
         <option value="shake">Tremer</option>
     </select>
     <button id="update">Atualizar</button>
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
         const firebaseConfig = {
           apiKey: "AIzaSyD1_jce8AKIShD-10OQFHZMgtnPJbjC2pw",
           authDomain: "piba-happy-new-year.firebaseapp.com",
@@ -28,13 +29,16 @@
           appId: "1:627238322422:web:6c25a982ce66f437fdacd7",
           measurementId: "G-148ZJ9K8ZQ"
         };
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
         document.getElementById('update').addEventListener('click', () => {
             const bgColor = document.getElementById('bg-color').value;
             const animation = document.getElementById('animation').value;
-            db.ref('settings').set({ bgColor, animation });
+
+            console.log(ref(db, 'settings'));
+            set(ref(db, 'settings'), { bgColor, animation });
         });
     </script>
 </body>
