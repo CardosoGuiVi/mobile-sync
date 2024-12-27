@@ -16,6 +16,7 @@ const container = document.getElementById("container");
 // Atualizar o layout em tempo real
 db.ref('settings').on('value', (snapshot) => {
     const data = snapshot.val();
+    console.log(data);
     if (data) {
         container.style.backgroundColor = data.bgColor;
         container.className = data.animation; // Aplica a classe da animação
