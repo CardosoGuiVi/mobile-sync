@@ -3,9 +3,52 @@
 <head>
     <title>Fullscreen Animation</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --color1: red;
+            --color2: blue;
+            --blink-time: 1s;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: blink var(--blink-time) infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                background-color: var(--color1);
+            }
+            50% {
+                background-color: var(--color2);
+            }
+            100% {
+                background-color: var(--color1);
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="container"></div>
+    <button id="fullscreen-btn" 
+        style="position: fixed; bottom: 10px; right: 10px; z-index: 1000; mix-blend-mode: difference;
+            background: none; border: none; color: white; font-size: 16px; cursor: pointer;">
+        Tela Cheia
+    </button>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
@@ -20,20 +63,32 @@
           appId: "1:627238322422:web:6c25a982ce66f437fdacd7",
           measurementId: "G-148ZJ9K8ZQ"
         };
-      
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
         const container = document.getElementById("container");
+        const fullscreenBtn = document.getElementById("fullscreen-btn");
 
+        // Atualiza as variáveis CSS em tempo real com base nos dados do Firebase
         onValue(ref(db, 'settings'), (snapshot) => {
             const data = snapshot.val();
             console.log(data);
             if (data) {
-                container.style.backgroundColor = data.bgColor;
-                container.className = data.animation; // Aplica a classe da animação
+                document.documentElement.style.setProperty('--color1', data.color1 || 'red');
+                document.documentElement.style.setProperty('--color2', data.color2 || 'blue');
+                document.documentElement.style.setProperty('--blink-time', (data.blinkTime || 1) + 's');
             }
         });
-      </script>
+
+        // Ativar modo tela cheia
+        fullscreenBtn.addEventListener('click', () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.documentElement.requestFullscreen();
+            }
+        });
+    </script>
 </body>
 </html>
