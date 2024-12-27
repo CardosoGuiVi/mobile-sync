@@ -5,16 +5,21 @@
 </head>
 <body>
     <h1>Controle do Site</h1>
-    <label for="bg-color">Cor de Fundo:</label>
-    <input type="color" id="bg-color">
+    
+    <label for="color1">Cor Inicial:</label>
+    <input type="color" id="color1" value="#ff0000">
     <br>
-    <label for="animation">Animação:</label>
-    <select id="animation">
-        <option value="none">Nenhuma</option>
-        <option value="pulse">Pulsar</option>
-        <option value="shake">Tremer</option>
-    </select>
+    
+    <label for="color2">Cor Secundária:</label>
+    <input type="color" id="color2" value="#0000ff">
+    <br>
+    
+    <label for="blink-time">Tempo de Piscar (segundos):</label>
+    <input type="number" id="blink-time" value="1" min="0.1" step="0.1">
+    <br>
+
     <button id="update">Atualizar</button>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
@@ -34,11 +39,31 @@
         const db = getDatabase(app);
 
         document.getElementById('update').addEventListener('click', () => {
-            const bgColor = document.getElementById('bg-color').value;
-            const animation = document.getElementById('animation').value;
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const blinkTime = document.getElementById('blink-time').value;
 
-            console.log(ref(db, 'settings'));
-            set(ref(db, 'settings'), { bgColor, animation });
+            // Atualiza as configurações no Firebase
+            set(ref(db, 'settings'), {
+                color1,
+                color2,
+                blinkTime
+            }).then(() => {
+                console.log("Configurações atualizadas com sucesso!");
+            }).catch((error) => {
+                console.error("Erro ao atualizar configurações: ", error);
+                console.log("Erro ao atualizar configurações. Verifique o console para mais detalhes.");
+            });
+        });
+
+        // Atualiza os campos com os valores atuais do Firebase
+        onValue(ref(db, 'settings'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('color1').value = data.color1 || "#ff0000";
+                document.getElementById('color2').value = data.color2 || "#0000ff";
+                document.getElementById('blink-time').value = data.blinkTime || 1;
+            }
         });
     </script>
 </body>
