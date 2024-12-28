@@ -2,70 +2,19 @@
 <html>
 <head>
     <title>Admin Control</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        button {
-            width: 300px;
-            height: 50px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-
-        #color-controls label {
-            display: flex;
-        }
-
-        #color-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
-            gap: 10px;
-        }
-
-        #color-controls-1 {
-            grid-column: 1 / 2;
-        }
-
-        #color-controls-2 {
-            grid-column: 2 / 3;
-        }
-
-        #color-controls-3 {
-            grid-column: 1 / 3;
-        }
-    </style>
+    <link rel="icon" href="assets/icon.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="manifest" href="manifest.json">
+    <viewport content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <h1>PIBA - Animation Controls</h1>
 
     <div class="controls">
-        <!-- Blackout Button -->
         <button id="blackout" style="background-color: black; color: white;">Blackout</button>
         
-        <!-- Logo Button -->
         <button id="logo" style="background-color: #007bff; color: white;">Logo</button>
         
-        <!-- Blink Configuration -->
         <button id="blink" style="background-color: #28a745; color: white;">Blink</button>
         <div id="color-controls">
             <div id="color-controls-1">
@@ -82,72 +31,10 @@
                 <label id="blink-time-text" for="blink-time">Blink time (seg):</label>
                 <input type="range" id="blink-time" value="1" min="0.1" max="2" step="0.1">
             </div>
-
-            <!-- <label for="color1">Cor Inicial:</label>
-            <input type="color" id="color1" value="#000000">
-            
-            <label for="color2">Cor Secundária:</label>
-            <input type="color" id="color2" value="#ffffff">
-            
-            <label id="blink-time-text" for="blink-time">Tempo de Piscar (segundos):</label>
-            <input type="range" id="blink-time" value="1" min="0.1" max="2" step="0.1"> -->
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1_jce8AKIShD-10OQFHZMgtnPJbjC2pw",
-            authDomain: "piba-happy-new-year.firebaseapp.com",
-            databaseURL: "https://piba-happy-new-year-default-rtdb.firebaseio.com",
-            projectId: "piba-happy-new-year",
-            storageBucket: "piba-happy-new-year.firebasestorage.app",
-            messagingSenderId: "627238322422",
-            appId: "1:627238322422:web:6c25a982ce66f437fdacd7",
-            measurementId: "G-148ZJ9K8ZQ"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // Botão Blackout
-        document.getElementById('blackout').addEventListener('click', () => {
-            set(ref(db, 'settings'), {
-                animation: "blackout",
-                color1: "#000000",
-                color2: "#000000"
-            });
-        });
-        
-        // Botão Logo
-        document.getElementById('logo').addEventListener('click', () => {
-            set(ref(db, 'settings'), {
-                animation: "logo",
-                message: "Tudo certo! Aguarde nosso culto começar…",
-                color1: "#000000",
-                color2: "#000000"
-            });
-        });
-
-        // Botão Blink
-        document.getElementById('blink-time').addEventListener('input', () => {
-            document.getElementById('blink-time-text').innerText = `Blink time (seg): ${document.getElementById('blink-time').value}`;
-        });
-
-        document.getElementById('blink').addEventListener('click', () => {
-            const color1 = document.getElementById('color1').value;
-            const color2 = document.getElementById('color2').value;
-            const blinkTime = document.getElementById('blink-time').value;
-
-            set(ref(db, 'settings'), {
-                animation: "blink",
-                color1,
-                color2,
-                blinkTime
-            });
-        });
-    </script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/admin.js"></script>
 </body>
 </html>
