@@ -8,7 +8,7 @@ const message = document.getElementById("message"); // Novo elemento para mensag
 onValue(ref(db, 'settings'), (snapshot) => {
     const data = snapshot.val();
     if (data) {
-        const animation = data.animation;
+        const animation = data.animation; //Test
         const customMessage = data.message;
 
         container.style.backgroundColor = '';
