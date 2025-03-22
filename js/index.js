@@ -12,7 +12,7 @@ onValue(ref(db, 'settings'), (snapshot) => {
         const customMessage = data.message; //Teste2
 
         container.style.backgroundColor = ''; //Teste
-        container.classList.remove('blink');
+        container.classList.remove('blink'); //Teste
         logo.style.display = 'none';
         message.style.display = 'none';
         message.textContent = '';
