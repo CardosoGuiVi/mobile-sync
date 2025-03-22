@@ -11,7 +11,7 @@ onValue(ref(db, 'settings'), (snapshot) => {
         const animation = data.animation; //Test
         const customMessage = data.message; //Teste2
 
-        container.style.backgroundColor = '';
+        container.style.backgroundColor = ''; //Teste
         container.classList.remove('blink');
         logo.style.display = 'none';
         message.style.display = 'none';
