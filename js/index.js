@@ -9,7 +9,7 @@ onValue(ref(db, 'settings'), (snapshot) => {
     const data = snapshot.val();
     if (data) {
         const animation = data.animation; //Test
-        const customMessage = data.message;
+        const customMessage = data.message; //Teste2
 
         container.style.backgroundColor = '';
         container.classList.remove('blink');
